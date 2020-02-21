@@ -1,0 +1,36 @@
+<!--<?xml version="1.0" encoding="UTF-8"?>-->
+
+<!--<configuration>-->
+<!--    <property name="LOG_LOCATION" value="C:/Users/836548/Documents/vz-training/vz-new-master/vz-new-master/Logs" />-->
+
+<!--    <appender name="access" class="ch.qos.logback.core.rolling.RollingFileAppender">-->
+<!--        <file>${LOG_LOCATION}/customer-service-access-events.log</file>-->
+<!--        <encoder class="net.logstash.logback.encoder.LogstashAccessEncoder">-->
+<!--        <providers>-->
+<!--            <pattern>-->
+<!--                <pattern>-->
+<!--                    {-->
+<!--                    "remote_ip": "%a",-->
+<!--                    "status_code": "%s",-->
+<!--                    "elapsed_time": "%D",-->
+<!--                    "user_agent": "%i{User-Agent}",-->
+<!--                    "accept": "%i{Accept}",-->
+<!--                    "referer": "%i{Referer}",-->
+<!--                    "session": "%requestCookie{JSESSIONID}",-->
+<!--                    }-->
+<!--                </pattern>-->
+<!--            </pattern>-->
+<!--        </providers>-->
+<!--        </encoder>-->
+<!--    </appender>-->
+
+<!--&lt;!&ndash;    message&ndash;&gt;-->
+<!--&lt;!&ndash;    method&ndash;&gt;-->
+<!--&lt;!&ndash;    protocol&ndash;&gt;-->
+<!--&lt;!&ndash;    statusCode&ndash;&gt;-->
+<!--&lt;!&ndash;    requestedUrl&ndash;&gt;-->
+<!--&lt;!&ndash;    requestedUri&ndash;&gt;-->
+<!--&lt;!&ndash;    elapsedTime&ndash;&gt;-->
+
+<!--    <appender-ref ref="access" />-->
+<!--</configuration>-->

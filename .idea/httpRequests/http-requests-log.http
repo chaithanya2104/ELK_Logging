@@ -1,0 +1,26 @@
+POST http://localhost:8080/customer-api/actuator/refresh
+Accept: application/vnd.spring-boot.actuator.v3+json
+
+###
+
+POST http://localhost:8080/customer-api/actuator/refresh
+Accept: application/vnd.spring-boot.actuator.v3+json
+
+<> 2020-01-24T061336.200.json
+
+###
+
+POST http://localhost:8080/customer-api/actuator/refresh
+Accept: application/vnd.spring-boot.actuator.v3+json
+
+<> 2020-01-24T061308.200.json
+
+###
+
+POST http://localhost:8080/customer-api/actuator/refresh
+Accept: application/vnd.spring-boot.actuator.v3+json
+
+<> 2020-01-24T061211.200.json
+
+###
+

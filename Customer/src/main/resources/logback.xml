@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration >
+    <property name="LOG_LOCATION" value="C:/Users/836548/Documents/vz-training/vz-new-master/vz-new-master/Logs" />
+    <property name="LOG_ARCHIVED" value="C:/Users/836548/Documents/vz-training/vz-new-master/vz-new-master/Logs/Archived" />
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+        <pattern>%d{yyyy-MM-dd HH:mm:ss} - %logger{36} - %msg%n</pattern>
+    </encoder>
+    </appender>
+    <appender name="FILE" class="ch.qos.logback.core.FileAppender">
+        <File>/${LOG_LOCATION}/customer-service.log</File>
+        <append>true</append>
+        <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+<!--            <omitEmptyField>false</omitEmptyField>-->
+<!--            To include caller info-->
+<!--            <includeCallerData>true</includeCallerData>-->
+
+<!--            To include MDC keys-->
+<!--            <includeMdcKeyName>key1ToInclude</includeMdcKeyName>-->
+<!--            keyname specified for inclusion/exculsion-->
+<!--            <includeMdcKeyName>key2ToInclude</includeMdcKeyName>-->
+            <providers>
+                <pattern>
+<!--                    <omitEmptyFields>false</omitEmptyFields>-->
+                    <pattern>
+                        {
+                        "timestamp": "%date{\"yyyy-MM-dd'T'HH:mm:ss,SSSXXX\", UTC}",
+                        "level": "%level",
+                        "logger": "%logger",
+                        "message": "%message",
+                        "CustomersReturned": "#asJson{%mdc{1}}"
+                        }
+                    </pattern>
+                </pattern>
+                <nestedField>
+                    <fieldName>Logger Info</fieldName>
+                    <providers>
+                        <callerData>
+                            <classFieldName>classname</classFieldName>
+                            <methodFieldName>method</methodFieldName>
+                            <fileFieldName>file</fileFieldName>
+                            <lineFieldName>line</lineFieldName>
+                        </callerData>
+                    </providers>
+                </nestedField>
+            </providers>
+        </encoder>
+    </appender>
+
+    <appender name="RollingFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_LOCATION}/customer-service.log</file>
+        <append>true</append>
+        <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+            <providers>
+                <pattern>
+                    <omitEmptyFields>false</omitEmptyFields>
+                    <pattern>
+                        {
+                        "timestamp": "%date{\"yyyy-MM-dd'T'HH:mm:ss,SSSXXX\", UTC}",
+                        "level": "%level",
+                        "logger": "%logger",
+                        "message": "%message",
+                        "functionality":"%mdc{method}",
+                        "CustomerToAdd":"#asJson{%mdc{addCustomer}}",
+                        "Email":"%mdc{inputEmail}",
+                        "AllCustomersReturned": "#asJson{%mdc{returnAllCustomers}}",
+                        "CustomersReturnedForEmail": "#asJson{%mdc{returnCustomersForEmail}}",
+                        "CustomerAdded": "#asJson{%mdc{returnAddedCustomer}}"
+                        }
+                    </pattern>
+                </pattern>
+                <nestedField>
+                    <fieldName>Logger Info</fieldName>
+                    <providers>
+                        <callerData>
+                            <classFieldName>classname</classFieldName>
+                            <methodFieldName>method</methodFieldName>
+                            <fileFieldName>file</fileFieldName>
+                            <lineFieldName>line</lineFieldName>
+                        </callerData>
+                    </providers>
+                </nestedField>
+            </providers>
+        </encoder>
+        <rollingPolicy
+                class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- rollover daily and when the file reaches 10 MegaBytes -->
+            <fileNamePattern>${LOG_LOCATION}/Archived/customer-service-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>10MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+    </appender>
+
+<!--    <appender name="RollingAccessFile" class="ch.qos.logback.core.rolling.RollingFileAppender">-->
+<!--        <file>${LOG_LOCATION}/customer-service-access.log</file>-->
+<!--        <append>true</append>-->
+<!--        <encoder class="net.logstash.logback.encoder.AccessEventCompositeJsonEncoder">-->
+<!--            <providers>-->
+<!--                <pattern>-->
+<!--                    <omitEmptyFields>false</omitEmptyFields>-->
+<!--                    <pattern>-->
+<!--                        {-->
+<!--                        "remote_ip": "%a",-->
+<!--                        "status_code": "%s",-->
+<!--                        "elapsed_time": "%D",-->
+<!--                        "user_agent": "%i{User-Agent}",-->
+<!--                        "accept": "%i{Accept}",-->
+<!--                        "referer": "%i{Referer}",-->
+<!--                        "session": "%requestCookie{JSESSIONID}"-->
+<!--                        }-->
+<!--                    </pattern>-->
+<!--                </pattern>-->
+<!--            </providers>-->
+<!--        </encoder>-->
+<!--        <rollingPolicy-->
+<!--                class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">-->
+<!--            &lt;!&ndash; rollover daily and when the file reaches 10 MegaBytes &ndash;&gt;-->
+<!--            <fileNamePattern>${LOG_LOCATION}/Archived/customer-service-access-%d{yyyy-MM-dd}.%i.log</fileNamePattern>-->
+<!--            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">-->
+<!--                <maxFileSize>10MB</maxFileSize>-->
+<!--            </timeBasedFileNamingAndTriggeringPolicy>-->
+<!--        </rollingPolicy>-->
+<!--    </appender>-->
+
+
+    <logger name="com.example.customers.controller.CustomerController" level="INFO" >
+        <!--        <appender-ref ref="FILE" />-->
+        <appender-ref ref="RollingFile" />
+        <appender-ref ref="CONSOLE" />
+<!--        <appender-ref ref="RollingAccessFile"/>-->
+    </logger>
+
+    <root level="ERROR">
+        <appender-ref ref="CONSOLE"/>
+    </root>
+    <!-- Application logs at trace level -->
+</configuration>
